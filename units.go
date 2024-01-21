@@ -89,9 +89,31 @@ func (e *EngUnit) AsSymbol() string {
 	return fmt.Sprintf("%.2f %s", e.value, e.unit)
 }
 
-func MergeAllUnits() map[string]map[string]string {
-	out := map[string]map[string]string{}
+func GetUnitByKey(category, key string) (string, error) {
+	mergedUnits := MergeAllUnits()
+	categoryMap, found := mergedUnits[category]
+	if !found {
+		return "", fmt.Errorf("category '%s' not found", category)
+	}
 
+	unit, found := categoryMap[key]
+	if !found {
+		return "", fmt.Errorf("key '%s' not found in category '%s'", key, category)
+	}
+
+	return unit, nil
+}
+
+func MergeAllUnits() map[string]map[string]string {
+
+	out := map[string]map[string]string{}
+	out["misc"] = map[string]string{
+		"celsius":    "°C",
+		"fahrenheit": "°F",
+		"percentage": "%",
+		"dollar":     "$",
+		"euro":       "€",
+	}
 	// Mass units and symbols
 	out["mass"] = massSymbols
 

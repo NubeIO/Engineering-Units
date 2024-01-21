@@ -18,11 +18,14 @@ func Test_main(t *testing.T) {
 	eu := Units{}
 
 	mass := eu.Mass(1000, "g")
+	fmt.Printf("mass %s \n", mass.AsSymbol())
+
+	mass = eu.Mass(1000, "g")
 	s := mass.GetSymbols()
 
 	PrintJOSN(s)
 
-	err := mass.CheckUnit("aaaa")
+	err := mass.CheckUnit("kg")
 	fmt.Println(err)
 	if err != nil {
 		return
@@ -36,6 +39,15 @@ func Test_main(t *testing.T) {
 	fmt.Printf("Converted Temperature: %f\n", f)
 	fmt.Printf("Converted Temperature: %v\n", temperature.AsSymbol())
 
-	//PrintJOSN(MergeAllUnits())
+	PrintJOSN(MergeAllUnits())
 
+}
+
+func TestGetUnitByKey(t *testing.T) {
+	unit, err := GetUnitByKey("misc", "celsius")
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Printf("Unit: %s\n", unit)
+	}
 }
