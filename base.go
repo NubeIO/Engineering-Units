@@ -1,5 +1,20 @@
 package units
 
+import (
+	"fmt"
+)
+
+type Unit interface {
+	ChangeUnit(unit string) float64
+	ChangeUnitAsSymbol(unit string, decimalPlace int) string
+	AsSymbol() string
+	AsSymbolWithDecimal(decimalPlace int) string
+	Convert(toUnit string) float64
+	CheckUnit(unit string) error
+	GetSymbols() map[string]string
+	GetSymbol(key string) string
+}
+
 type EngineeringUnits interface {
 	Mass(value float64, unit string) Unit
 	Length(value float64, unit string) Unit
@@ -14,6 +29,33 @@ type EngineeringUnits interface {
 
 type Units struct{}
 
+func New() Units {
+	return Units{}
+}
+
+func (u Units) Conversion(category, unit string, value float64) (Unit, error) {
+	switch category {
+	case "mass":
+		return NewMass(value, unit), nil
+	case "length":
+		return NewLength(value, unit), nil
+	case "temperature":
+		return NewTemperature(value, unit), nil
+	case "current":
+		return NewCurrent(value, unit), nil
+	case "time":
+		return NewEngTime(value, unit), nil
+	case "pressure":
+		return NewPressure(value, unit), nil
+	case "force":
+		return NewForce(value, unit), nil
+	case "power":
+		return NewPower(value, unit), nil
+	case "flow":
+		return NewFlow(value, unit), nil
+	}
+	return nil, fmt.Errorf("category: %s", category)
+}
 func (u Units) Mass(value float64, unit string) Unit {
 
 	return NewMass(value, unit)
@@ -49,13 +91,4 @@ func (u Units) Power(value float64, unit string) Unit {
 
 func (u Units) Flow(value float64, unit string) Unit {
 	return NewFlow(value, unit)
-}
-
-type Unit interface {
-	ChangeUnit(unit string) float64
-	AsSymbol() string
-	Convert(toUnit string) float64
-	CheckUnit(unit string) error
-	GetSymbols() map[string]string
-	GetSymbol(key string) string
 }

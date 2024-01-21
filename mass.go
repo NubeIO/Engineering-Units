@@ -1,12 +1,5 @@
 package units
 
-func mergeAllUnits() {
-	out := map[string]map[string]string{}
-
-	out["mass"] = massSymbols
-
-}
-
 var massSymbols = map[string]string{
 	"kg":        "kg",
 	"g":         "g",

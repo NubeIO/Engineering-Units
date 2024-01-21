@@ -36,7 +36,7 @@ func Test_main(t *testing.T) {
 
 	temperature := eu.Temperature(75.0, "F")
 	f := temperature.ChangeUnit("C")
-	fmt.Printf("Converted Temperature: %f\n", f)
+	fmt.Printf("Converted Temperature: %f \n", f)
 	fmt.Printf("Converted Temperature: %v\n", temperature.AsSymbol())
 
 	PrintJOSN(MergeAllUnits())
@@ -44,10 +44,11 @@ func Test_main(t *testing.T) {
 }
 
 func TestGetUnitByKey(t *testing.T) {
-	unit, err := GetUnitByKey("misc", "celsius")
+	eu := New()
+	conversion, err := eu.Conversion("temperature", "F", 75.5)
 	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Printf("Unit: %s\n", unit)
+		return
 	}
+	fmt.Printf("Unit: %v\n", conversion.ChangeUnitAsSymbol("C", 2))
+
 }

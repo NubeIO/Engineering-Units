@@ -1,5 +1,7 @@
 package units
 
+import "fmt"
+
 // Temperature is a temperature object that can store a temperature value and convert between units of temperature.
 type Temperature struct {
 	EngUnit
@@ -53,6 +55,10 @@ func (t *Temperature) ChangeUnit(unit string) float64 {
 	t.value = t.Convert(unit)
 	t.unit = unit
 	return t.value
+}
+func (t *Temperature) ChangeUnitAsSymbol(unit string, decimalPlace int) string {
+	format := fmt.Sprintf("%%.%df", decimalPlace)
+	return fmt.Sprintf(format+" %s", t.ChangeUnit(unit), unit)
 }
 
 // NewTemperature creates a new Temperature object.

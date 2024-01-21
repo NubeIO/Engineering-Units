@@ -80,7 +80,16 @@ func (e *EngUnit) GetValue() []interface{} {
 	return []interface{}{e.value, e.unit}
 }
 
-// AsSymbol returns a string representation of the value and unit using the unit symbol.
+func (e *EngUnit) ChangeUnitAsSymbol(unit string, decimalPlace int) string {
+	format := fmt.Sprintf("%%.%df", decimalPlace)
+	return fmt.Sprintf(format+" %s", e.ChangeUnit(unit), unit)
+}
+
+func (e *EngUnit) AsSymbolWithDecimal(decimalPlace int) string {
+	format := fmt.Sprintf("%%.%df", decimalPlace)
+	return fmt.Sprintf(format+" %s", e.value, e.unit)
+}
+
 func (e *EngUnit) AsSymbol() string {
 	symbol, exists := e.symbols[e.unit]
 	if exists {
@@ -108,8 +117,6 @@ func MergeAllUnits() map[string]map[string]string {
 
 	out := map[string]map[string]string{}
 	out["misc"] = map[string]string{
-		"celsius":    "°C",
-		"fahrenheit": "°F",
 		"percentage": "%",
 		"dollar":     "$",
 		"euro":       "€",
