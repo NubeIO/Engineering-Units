@@ -49,6 +49,7 @@ func TestGetUnitByKey(t *testing.T) {
 	if err != nil {
 		return
 	}
+	fmt.Printf("Unit: %v\n", conversion.AsSymbolWithDecimal(0))
 	fmt.Printf("Unit: %v\n", conversion.ChangeUnitAsSymbol("C", 2))
 
 }
